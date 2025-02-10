@@ -2,7 +2,7 @@
  * @ Author: luoqi
  * @ Create Time: 2024-03-29 17:20
  * @ Modified by: luoqi
- * @ Modified time: 2024-11-05 18:05
+ * @ Modified time: 2025-02-10 11:22
  * @ Description:
  */
 
@@ -15,11 +15,12 @@ typedef enum {
     QBUTTON_ACTION_PRESS_DOWN = 0x00,
     QBUTTON_ACTION_PRESS_UP,
     QBUTTON_ACTION_PRESS_REPEAT,
-    QBUTTON_ACTION_SIGLE_CLICK,
+    QBUTTON_ACTION_SINGLE_CLICK,   // 修改拼写
     QBUTTON_ACTION_DOUBLE_CLICK,
-    QBUTTON_ACTION_THRIBLE_CLICK,
+    QBUTTON_ACTION_TRIPLE_CLICK,   // 修改拼写
     QBUTTON_ACTION_PRESS_LONG,
     QBUTTON_ACTION_NONE,
+    QBUTTON_ACTION_NUM             // 新增，记录总数
 } QButtonAction;
 
 typedef enum {
