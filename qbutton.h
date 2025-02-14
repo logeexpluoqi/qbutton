@@ -2,7 +2,7 @@
  * @ Author: luoqi
  * @ Create Time: 2024-03-29 17:20
  * @ Modified by: luoqi
- * @ Modified time: 2025-02-10 11:22
+ * @ Modified time: 2025-02-14 16:11
  * @ Description:
  */
 
@@ -15,12 +15,15 @@ typedef enum {
     QBUTTON_ACTION_PRESS_DOWN = 0x00,
     QBUTTON_ACTION_PRESS_UP,
     QBUTTON_ACTION_PRESS_REPEAT,
-    QBUTTON_ACTION_SINGLE_CLICK,   // 修改拼写
+    QBUTTON_ACTION_SINGLE_CLICK,
     QBUTTON_ACTION_DOUBLE_CLICK,
-    QBUTTON_ACTION_TRIPLE_CLICK,   // 修改拼写
+    QBUTTON_ACTION_TRIPLE_CLICK,
     QBUTTON_ACTION_PRESS_LONG,
+    
+    /* process state, do not use for user */
     QBUTTON_ACTION_NONE,
-    QBUTTON_ACTION_NUM             // 新增，记录总数
+    QBUTTON_ACTION_PRESS_LONG_HOLD,
+    QBUTTON_ACTION_WAIT_MULTICLICK,
 } QButtonAction;
 
 typedef enum {
@@ -40,6 +43,7 @@ typedef struct {
     uint8_t   debounce_tick;
     uint16_t  long_tick;        // long press time threshold
     uint8_t   short_tick;       // repeat press time threshold
+    uint8_t   click_timeout;    // multi-click click timeout
 
     int (*button_read)(void);
 
