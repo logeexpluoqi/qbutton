@@ -2,7 +2,7 @@
  * @ Author: luoqi
  * @ Create Time: 2024-03-29 17:20
  * @ Modified by: luoqi
- * @ Modified time: 2025-02-14 16:11
+ * @ Modified time: 2025-02-17 20:58
  * @ Description:
  */
 
@@ -18,6 +18,9 @@
 
 int qbutton_init(QButton *button, QButtonPressDownKeyVal keyval, uint8_t debounce_tick, uint16_t long_tick, uint8_t short_tick, int (*button_read)(void))
 {
+    if(!button || !button_read) {
+        return -1;
+    }
     button->isactive = 0;
     button->debounce = 0;
     button->ticks = 0;
@@ -37,6 +40,9 @@ int qbutton_init(QButton *button, QButtonPressDownKeyVal keyval, uint8_t debounc
 
 int qbutton_events_attach(QButton *button, QButtonAction action, int (*callback)(int))
 {
+    if(!button || !callback) {
+        return -1;
+    }
     if(button->callback[action] == 0) {
         button->callback[action] = callback;
         return 0;
@@ -47,6 +53,9 @@ int qbutton_events_attach(QButton *button, QButtonAction action, int (*callback)
 
 int qbutton_events_detach(QButton *button, QButtonAction action)
 {
+    if(!button) {
+        return -1;
+    }
     if(button->callback[action] != 0) {
         button->callback[action] = 0;
         return 0;
@@ -57,6 +66,9 @@ int qbutton_events_detach(QButton *button, QButtonAction action)
 
 int qbutton_exec(QButton *button)
 {
+    if(!button) {
+        return -1;
+    }
     int err = 0;
     int keyval = button->button_read();
 
