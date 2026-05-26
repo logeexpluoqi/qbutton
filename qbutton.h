@@ -1,7 +1,7 @@
 /**
  * Author: luoqi
  * Created Date: 2025-12-23 16:08:59
- * Last Modified: 2026-05-26 11:41:19
+ * Last Modified: 2026-05-26 17:59:25
  * Modified By: luoqi at <**@****>
  * Copyright (c) 2026 <*****>
  * Description: 
@@ -12,6 +12,24 @@
 
 #include <stdint.h>
 
+/**
+ * @brief QButtonAction — button event types.
+ *
+ * Trigger conditions for each action:
+ *
+ * PRESS_DOWN    — fired every tick while button IS held (raw press signal).
+ * PRESS_UP      — fired when button is released AFTER a long-press;
+ *                  also serves as fallback when SINGLE_CLICK callback
+ *                  is not registered for a short-press timeout.
+ * PRESS_REPEAT  — fired on 4th+ consecutive click within multi-click window.
+ * SINGLE_CLICK  — fired on short-press timeout when clicks==0.
+ * DOUBLE_CLICK  — fired on short-press timeout when clicks==1.
+ * TRIPLE_CLICK  — fired on short-press timeout when clicks==2.
+ * PRESS_LONG    — fired once when hold duration exceeds long_tm.
+ *
+ * The following are internal FSM states — DO NOT use as callbacks:
+ * NONE, PRESS_LONG_HOLD, WAIT_MULTICLICK.
+ */
 typedef enum {
     QBUTTON_ACTION_PRESS_DOWN = 0x00,
     QBUTTON_ACTION_PRESS_UP,
@@ -72,7 +90,7 @@ typedef struct {
  * @param btn_read Function pointer to read the pin value.
  * @return 0 on success, non-zero on failure.
  */
-int qbutton_init(QButton *button, QButtonPressedLevel lvl, uint8_t debounce, uint16_t long_tm, uint8_t click_tmo, int (*btn_read)(void));
+int qbutton_init(QButton *button, QButtonPressedLevel lvl, uint8_t debounce, uint8_t click_tmo, uint16_t long_tm, int (*btn_read)(void));
 
 /**
  * @brief Attaches a callback function to a specific button action.
@@ -92,10 +110,10 @@ int qbutton_events_attach(QButton *button, QButtonAction action, int (*callback)
 int qbutton_events_detach(QButton *button, QButtonAction action);
  
 /**
- * @brief Executes the button logic, processing its state and triggering callbacks.
+ * @brief Scans the button logic, processing its state and triggering callbacks.
  * @param button Pointer to the QButton instance.
  * @return 0 on success, non-zero on failure.
  */
-int qbutton_exec(QButton *button);
+int qbutton_scan(QButton *button);
 
 #endif

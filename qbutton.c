@@ -1,7 +1,7 @@
 /**
  * Author: luoqi
  * Created Date: 2025-12-23 16:08:59
- * Last Modified: 2026-05-26 11:42:27
+ * Last Modified: 2026-05-26 17:59:51
  * Modified By: luoqi at <**@****>
  * Copyright (c) 2026 <*****>
  * Description:
@@ -17,7 +17,7 @@
         }                                               \
     } while (0)
 
-int qbutton_init(QButton *button, QButtonPressedLevel lvl, uint8_t debounce, uint16_t long_tm, uint8_t click_tmo, int (*btn_read)(void))
+int qbutton_init(QButton *button, QButtonPressedLevel lvl, uint8_t debounce, uint8_t click_tmo, uint16_t long_tm, int (*btn_read)(void))
 {
     if(!button || !btn_read) {
         return -1;
@@ -74,7 +74,7 @@ int qbutton_events_detach(QButton *button, QButtonAction action)
     }
 }
 
-int qbutton_exec(QButton *button)
+int qbutton_scan(QButton *button)
 {
     if(!button) {
         return -1;
@@ -113,12 +113,9 @@ int qbutton_exec(QButton *button)
             if(button->hold < button->long_tm) {
                 button->state = QBUTTON_ACTION_WAIT_MULTICLICK;
             } else {
-                /* hold >= long_tm: released at the boundary
-                 * after hold++ pushed past long_tm but before
-                 * the long-press transition could fire */
-                QBUTTON_EVENT_CALLBACK(QBUTTON_ACTION_PRESS_UP, val, err);
-                button->state = QBUTTON_ACTION_NONE;
-                button->hold = 0;
+                /* hold >= long_tm: released at the boundary,
+                 * treat as a long-press release */
+                button->state = QBUTTON_ACTION_PRESS_LONG_HOLD;
             }
         }
         break;
