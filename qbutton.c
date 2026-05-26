@@ -1,9 +1,10 @@
 /**
- * @ Author: luoqi
- * @ Create Time: 2024-03-29 17:20
- * @ Modified by: luoqi
- * @ Modified time: 2025-05-18 23:32
- * @ Description:
+ * Author: luoqi
+ * Created Date: 2025-12-23 16:08:59
+ * Last Modified: 2026-05-26 11:42:27
+ * Modified By: luoqi at <**@****>
+ * Copyright (c) 2026 <*****>
+ * Description:
  */
 
 #include "qbutton.h"
